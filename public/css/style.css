@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    margin: 30px 15px ;
+}
+
+.news {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.news-item {
+    padding: 5px;
+    box-shadow: 0 2px 5px black;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
