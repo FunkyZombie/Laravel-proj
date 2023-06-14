@@ -1,4 +1,3 @@
-
 <div class="container news" >
     <?php foreach($news as $key => $new): ?>
             <div class="news-item">
@@ -8,6 +7,3 @@
             </div>
     <?php endforeach; ?>
 </div>
-
-
-
