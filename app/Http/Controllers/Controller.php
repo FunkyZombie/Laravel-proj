@@ -10,56 +10,29 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
-    private array $categoryNews = [
-        'politics'  => [],
-        'sports'    => [],
-        'move'      => [],
-        'games'     => [],
-        'economy'   => []
-    ];
 
-    public function __construct()
+    public function getNews(int $id = null)
     {
-        $this->generateNews();
-    }
-
-    private function generateNews(): void
-    {
+        
+        $news = [];
         $faker = Factory::create();
         
-        foreach($this->categoryNews as &$cat) 
-        {
-            for ($i = 0; $i < 5; $i++) {
-                $cat[] = [
-                    'title'         => $faker->jobTitle(),
-                    'author'        => $faker->userName(),
-                    'status'        => 'DRAFT',
-                    'description'   => $faker->text(),
-                    'created_at'    => now('Europe/Moscow')
-                ];
-            }
-        }
-    }
-
-    public function getNews(int $id = null, string $prefix = null)
-    {
-        
-        $faker = Factory::create();
-        
-        if (!$prefix && !$id) {
-            $news = [];
-
-            foreach ($this->categoryNews as $arr) {
-                $news[] = $arr[array_rand($arr, 1)];
-            }
-
-            sort($news);
-            return $news;
-        }
 
         if ($id) 
         {
             return [
+                'id'            => $id,
+                'title'         => $faker->jobTitle(),
+                'author'        => $faker->userName(),
+                'status'        => 'DRAFT',
+                'description'   => $faker->text(),
+                'created_at'    => now('Europe/Moscow')
+            ];
+        }
+        
+        for ($i = 1; $i <= 10; $i++) {
+            $news[] = [
+                'id'            => $i,
                 'title'         => $faker->jobTitle(),
                 'author'        => $faker->userName(),
                 'status'        => 'DRAFT',
@@ -68,22 +41,7 @@ class Controller extends BaseController
             ];
         }
 
-        // for ($i = 0; $i < 5; $i++) {
-        //     $cat[] = [
-        //         'title'         => $faker->jobTitle(),
-        //         'author'        => $faker->userName(),
-        //         'status'        => 'DRAFT',
-        //         'description'   => $faker->text(),
-        //         'created_at'    => now('Europe/Moscow')
-        //     ];
-        // }
-
-        if ($prefix) {
-            return $this->categoryNews[$prefix];
-        }
-
-        
+        sort($news);
+        return $news;
     }
-
-
 }
