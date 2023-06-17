@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 
 class MainController extends Controller
 {
-    public function index()
+    public function index(string $name = null)
     {
-        return view('main.index');
+        return view('main.index', [
+            'name' => $name
+        ]);
     }
 }
