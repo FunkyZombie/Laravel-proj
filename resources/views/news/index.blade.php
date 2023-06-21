@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.news')
 @section('title') Список новостей @parent @endsection
 @section('content')
     <div class="container">

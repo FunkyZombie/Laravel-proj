@@ -1,20 +1,14 @@
-
 <!doctype html>
-<html lang="en" class="h-100" data-bs-theme="auto">
+<html lang="en" data-bs-theme="auto">
   <head>
+    <script src="{{ asset('assets/js/color-modes.js') }}"></script>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Main Page</title>
+    <title>@section('title') :: NewsPortal @show</title>
 
 <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-
-    <!-- Favicons -->
-<link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-<link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="manifest" href="/docs/5.3/assets/img/favicons/manifest.json">
-<link rel="mask-icon" href="/docs/5.3/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
-<link rel="icon" href="/docs/5.3/assets/img/favicons/favicon.ico">
+<link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 <meta name="theme-color" content="#712cf9">
     <style>
       .bd-placeholder-img {
@@ -91,10 +85,8 @@
     </style>
 
     
-    <!-- Custom styles for this template -->
-    <link href="{{ asset('assets/css/cover.css') }}" rel="stylesheet">
   </head>
-  <body class="d-flex h-100 text-center text-bg-dark">
+  <body>
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
       <symbol id="check2" viewBox="0 0 16 16">
         <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
@@ -111,27 +103,19 @@
       </symbol>
     </svg>
 
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-  <header class="mb-auto">
-    <div>
-      <h3 class="float-md-start mb-0">Title</h3>
-      <nav class="nav nav-masthead justify-content-center float-md-end">
-        <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="{{ route('mainindex') }}">Home</a>
-        <a class="nav-link fw-bold py-1 px-0" href="{{ route('newsindex') }}">News</a>
-        <a class="nav-link fw-bold py-1 px-0" href="{{ route('mainorder.index') }}">Submit</a>
-      </nav>
-    </div>
-  </header>
+    <x-theme>
+    </x-theme>
 
-  <main class="px-3">
-    <h1>Main page</h1>
-  </main>
+    <x-news.header></x-news.header>
 
-  <footer class="mt-auto text-white-50">
-    <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
-  </footer>
-</div>
-<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+    <main>
+        <div class="album py-5 bg-body-tertiary">
+            @yield('content') 
+        </div>
+    </main>
+
+    <x-news.footer></x-news.footer>
+    <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
 
     </body>
 </html>
