@@ -1,0 +1,8 @@
+.card-scroll {
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: flow-root;
+    white-space: nowrap;
+}
