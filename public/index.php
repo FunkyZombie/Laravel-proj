@@ -55,7 +55,6 @@ $response = $kernel->handle(
     $request = Request::capture()
 )->send();
 
-
 echo 'Main page';
 
 $kernel->terminate($request, $response);
