@@ -19,7 +19,13 @@ class OrderController extends Controller
     {
         $fileWriter = new Filesystem();
 
-        $file = $fileWriter->json('./file.json');
+        if (file_exists('./file.json')) {
+            $file = $fileWriter->json('./file.json');
+
+        } else {
+            $file = [];
+        }
+
         $file[] = $request->only(['name', 'phone', 'email','description']);
 
         $fileWriter->replace('./file.json', json_encode($file));
