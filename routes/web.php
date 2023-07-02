@@ -31,8 +31,8 @@ Route::group(['prefix' => '', 'as' => 'main'], static function () {
     Route::resource('order', OrderController::class);
 });
 
-Route::get('/news/{id}', [NewsController::class, 'show'])
-    ->where('id', '\d+')
+Route::get('/news/{news}', [NewsController::class, 'show'])
+    ->where('news', '\d+')
     ->name('news.show');
 
 Route::view('/info', 'welcome');
