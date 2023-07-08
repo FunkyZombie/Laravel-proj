@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Categories\Store;
+use App\Http\Requests\Categories\Update;
 use App\Models\Category;
 use App\Queries\CategoriesQueryBuilder;
 use Illuminate\Http\Request;
@@ -36,21 +38,15 @@ class CategoriesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Store $request)
     {
-        $request->validate([
-            'title' => ['required', 'string'],
-        ]);
-
-        $category = $request->only('title', 'description');
-
-        $category = Category::create($category);
+        $category = Category::create($request->validated());
 
         if ($category !== false) {
-            return redirect()->route('admin.categories.index')->with('success', 'Category has been created');
+            return redirect()->route('admin.categories.index')->with('success', __('Category has been created'));
         }
 
-        return back()->with('error', 'Category has not been created');
+        return back()->with('error', __('Category has not been created'));
     }
 
 
@@ -74,22 +70,30 @@ class CategoriesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(Update $request, Category $category)
     {
-        $category = $category->fill($request->only('title', 'description'));
+        $category = $category->fill($request->validated());
 
         if($category->save()) {
-            return redirect()->route('admin.categories.index')->with('success', 'Category has been update');
+            return redirect()->route('admin.categories.index')->with('success', __('Category has been updated'));
         }
 
-        return back()->with('error', 'Category has not been update');
+        return back()->with('error', __('Category has not been updated'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        Category::find($id)->delete();
+        try {
+            $category->delete();
+
+            return \response()->json('ok', 200);
+        } catch (\Throwable $exception) {
+            \Log::error($exception->getMessage(), $exception->getTrace());
+
+            return \response()->json('error', 400);
+        }
     }
 }
