@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Queries\CategoriesQueryBuilder;
+use App\Queries\NewsQueryBuilder;
+use App\Queries\QueryBuilder;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(QueryBuilder::class, CategoriesQueryBuilder::class);
+        $this->app->bind(QueryBuilder::class, NewsQueryBuilder::class);
     }
 
     /**
@@ -19,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Paginator::useBootstrapFive();
     }
 }

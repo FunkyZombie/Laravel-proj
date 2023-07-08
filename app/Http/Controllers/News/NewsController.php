@@ -2,30 +2,33 @@
 
 namespace App\Http\Controllers\News;
 
+use App\Enums\NewsStatus;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 use App\Models\News;
+use App\Queries\CategoriesQueryBuilder;
+use App\Queries\NewsQueryBuilder;
+use App\Queries\QueryBuilder;
 
 class NewsController extends Controller
 {
+    public function __construct(
+        protected NewsQueryBuilder $newsQueryBuilder,
+        protected CategoriesQueryBuilder $categoriesQueryBuilder
+    ) {
+    }
+
     public function __invoke(Request $request): View
     {
-        $model = app(News::class);
-
-        $news = $model->getNews();
-
         return view('news.index', [
-            'news' => $news,
+            'news' => $this->newsQueryBuilder->getActive()
         ]);
     }
 
-    public function show(int $id): View
+    public function show(News $news): View
     {
-        $model = app(News::class);
-
-        $news = $model->getNewsById($id);
 
         return view('news.show', [
             'news' => $news
