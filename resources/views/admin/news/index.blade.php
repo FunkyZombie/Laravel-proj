@@ -10,6 +10,7 @@
         </div>
     </div>
     <div class="table-responsive">
+        @include('admin.message')
         <table class="table table-bordered" id="news">
             <tr>
                 <th>#ID</th>
@@ -32,36 +33,42 @@
                 <td>{{$item->created_at}}</td>
                 <td>
                     <a href="{{ route('admin.news.edit', ['news' => $item]) }}">Edit</a>&nbsp;
-                    <a href="{{ route('admin.news.index') }}" data-id="{{ $item->id }}" style="color: red">Delete</a>
+                    <a href="javascript:;" class="deleted" data-id="{{ $item->id }}" style="color: red">Delete</a>
                 </td>
             </tr>
             @endforeach
         <table>
         {{ $newsList->links()}}
     </div>
-    <script type="text/javascript" defer>
 
-        async function deleteNews(path) {
-            const token = document.querySelector('meta[name=csrf-token]').getAttribute('content');
-
-            return fetch(path, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRF-TOKEN': token
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            let table = document.querySelector("#news");
+            table.addEventListener('click', (event) => {
+                if (event.target.className === 'deleted') { 
+                    let path = window.location.href + '/' + event.target.dataset.id;
+                    if (confirm(`Подтвердите удаление записи с #ID = ${ event.target.dataset.id }`)) {
+                        send(path).then((res) => {
+                            location.reload();
+                        });
+                    } else {
+                        alert('Удаление отменено');
+                    }
                 }
-            })
-        }
+            });
 
-        let table = document.querySelector("#news");
-        table.addEventListener('click', (event) => {
-            let target = event.target;
-
-            if (target.tagName === 'A') {
-                let path = window.location.href + '/' + event.target.dataset.id;
-                return deleteNews(path);
+            async function send(url) {
+                const token = document.querySelector('meta[name=csrf-token]').getAttribute('content');
+                let response = fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRF-TOKEN': token
+                    }
+                }).then(res => res.json());
+                return response;
             }
-        })
-
+        });
     </script>
+
 @endsection

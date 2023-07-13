@@ -13,19 +13,19 @@
         @csrf
         <div class="form-group">
             <label for="title">Категории</label>
-            <select class="form-select" multiple name="categories[]" id="categories" >
+            <select class="form-select @error('categories') is-invalid @enderror" multiple name="categories[]" id="categories" >
                 @foreach ($categories as $item)
-                    <option value="{{ $item->id }}">{{ $item->title }}</option>
+                    <option @if(in_array($item->id, old('categories') ?? [])) selected @endif value="{{ $item->id }}">{{ $item->title }}</option>
                 @endforeach
             </select>
         </div>
         <div class="form-group">
             <label for="title">Заголовок</label>
-            <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}"/>
+            <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}"/>
         </div>
         <div class="form-group">
             <label for="author">Автор</label>
-            <input type="text" name="author" id="author" class="form-control" value="{{ old('author') }}"/>
+            <input type="text" name="author" id="author" class="form-control @error('author') is-invalid @enderror" value="{{ old('author') }}"/>
         </div>
         <div class="form-group">
             <label for="image">Изображение</label>
@@ -33,15 +33,15 @@
         </div>
         <div class="form-group">
             <label for="status">Статус</label>
-            <select class="form-control" name="status" id="status" value="{{ old('status') }}">
-                <option value="DRAFT" selected>DRAFT</option>
-                <option value="ACTIVE">ACTIVE</option>
-                <option value="BLOCKED">BLOCKED</option>
-            </select>
+            <select class="form-control @error('status') is-invalid @enderror" name="status" id="status" value="{{ old('status') }}">
+                <option value="{{ App\Enums\NewsStatus::DRAFT->value }}">DRAFT</option>
+                <option value="{{ App\Enums\NewsStatus::ACTIVE->value }}">ACTIVE</option>
+                <option value="{{ App\Enums\NewsStatus::BLOCKED->value }}">BLOCKED</option>
+            </select>  
         </div>
         <div class="form-group">
             <label for="description">Описание</label>
-            <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
+            <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror">{{ old('description') }}</textarea>
         </div>
         <br/>
         <button type="submit" class="btn btn-success">Save</button>

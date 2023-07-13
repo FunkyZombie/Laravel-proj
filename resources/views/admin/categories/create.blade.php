@@ -13,11 +13,11 @@
         @csrf
         <div class="form-group">
             <label for="title">Заголовок</label>
-            <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}"/>
+            <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}"/>
         </div>
         <div class="form-group">
             <label for="description">Описание</label>
-            <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
+            <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror">{{ old('description') }}</textarea>
         </div>
         <br/>
         <button type="submit" class="btn btn-success">Save</button>

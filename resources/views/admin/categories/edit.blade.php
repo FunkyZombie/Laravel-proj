@@ -15,11 +15,11 @@
         @method('put')
         <div class="form-group">
             <label for="title">Заголовок</label>
-            <input type="text" name="title" id="title" class="form-control" value="{{ $category->title }}"/>
+            <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror" value="{{ $category->title }}"/>
         </div>
         <div class="form-group">
             <label for="description">Описание</label>
-            <textarea name="description" id="description" class="form-control">{{ $category->description }}</textarea>
+            <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror">{{ $category->description }}</textarea>
         </div>
         <br/>
         <button type="submit" class="btn btn-success">Save</button>
