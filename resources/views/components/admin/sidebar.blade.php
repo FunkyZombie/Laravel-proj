@@ -23,7 +23,13 @@
               <svg class="bi"><use xlink:href="#file-earmark-text"/></svg>
               Новости
             </a>
-          </li
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2 @if(request()->routeIs('admin.users.*')) active @endif" href="{{ route('admin.users.index') }}">
+              <svg class="bi"><use xlink:href="#file-earmark-text"/></svg>
+              Пользователи
+            </a>
+          </li>
           <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-2" href="#">
               <svg class="bi"><use xlink:href="#gear-wide-connected"/></svg>
@@ -31,10 +37,16 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="#">
-              <svg class="bi"><use xlink:href="#door-closed"/></svg>
-              Sign out
-            </a>
+                
+                <a class="nav-link d-flex align-items-center gap-2" href="{{ route('logout') }}"
+                    onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
+                    <svg class="bi"><use xlink:href="#door-closed"/></svg> Log out
+                </a>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+              @csrf
+            </form>
           </li>
         </ul>
       </div>
