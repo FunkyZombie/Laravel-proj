@@ -13,9 +13,12 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                        <h3>
-                            Здравствуйте, {{ Auth::user()->name }}
-                        </h3>
+                        @if (Auth::user()->avatar)
+                            <img src="{{ Auth::user()->avatar}}" style="width: 150px;">
+                        @endif
+                        <h3>Здравствуйте, {{ Auth::user()->name }}</h3><hr>
+
+
                         @if (Auth::user()->isAdmin) <p><a href="{{ route('admin.index') }}" style="color: red">В админку</a></p> @endif
                 </div>
             </div>

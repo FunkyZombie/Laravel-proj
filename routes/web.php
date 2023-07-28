@@ -13,8 +13,18 @@ use App\Http\Controllers\Admin\CategoriesController as AdminCategoriesController
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\UsersController as AdminUsersController;
+use App\Http\Controllers\Admin\ParserController;
+use App\Http\Controllers\SocialProvidersController;
 
+Route::group(['middleware' => 'guest'], function() {
+    Route::get('/{driver}/redirect', [SocialProvidersController::class, 'redirect'])
+        ->where('driver', '\w+')
+        ->name('social-providers.redirect');
 
+    Route::get('{driver}/callback', [SocialProvidersController::class, 'callback'])
+        ->where('driver', '\w+')
+        ->name('social-providers.callback');
+});
 
 Route::group(['middleware' => 'auth'], static function () {
     Route::group(['prefix' => 'account'], static function () {
@@ -24,13 +34,13 @@ Route::group(['middleware' => 'auth'], static function () {
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'check.admin'], static function () {
         Route::get('/', AdminController::class)
             ->name('index');
+        Route::get('/parser', ParserController::class)
+            ->name('parser');
         Route::resource('/categories', AdminCategoriesController::class);
         Route::resource('/news', AdminNewsController::class);
         Route::resource('/users', AdminUsersController::class);
     });
 });
-
-
 
 Route::group(['prefix' => 'news', 'as' => 'news'], static function () {
     Route::get('/', NewsController::class)->name('index');

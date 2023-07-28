@@ -9,7 +9,7 @@
                         @if ($item->image_url === null)
                             <img src="https://via.placeholder.com/640x480.png/001522?text=placeholder" alt="placeholder">
                         @else
-                            <img src="{{$item->image_url}}" />
+                            <img src="{{ asset('/images/safdg.png') }}" alt="placeholder">
                         @endif
                         <div class="card-body">
                             <p><strong><a href="{{ route('news.show', ['news' => $item->id ]) }}">{{ $item->title }}</a></strong></p>
