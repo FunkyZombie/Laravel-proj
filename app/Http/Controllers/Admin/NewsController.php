@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\NewsStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\News\Store;
 use App\Http\Requests\News\Update;
 use App\Queries\CategoriesQueryBuilder;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 use App\Models\News;
@@ -46,8 +46,15 @@ class NewsController extends Controller
      */
     public function store(Store $request)
     {
-        $news = News::create($request->validated());
+        if ($request->file('image')) {
+            $path = $request->file('image')->store('/public/images');
+            $request['image_url'] = $path;
+        }
 
+        // dd($request->all());
+
+        $news = News::create($request->all());
+ 
         if ($news) {
             $news->categories()->attach($request->getCategories());
             return redirect()->route('admin.news.index')->with('success', __('News has been created'));

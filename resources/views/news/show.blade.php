@@ -2,9 +2,11 @@
 @section('title') Новость "{{$news->title }}" @parent @endsection
 @section('content')
     <div class="container news-item">
+        <img src="{{ asset($news->image_url) }}" alt="" srcset=""/>
         <h2>{{$news->title}}</h2>
         <p>{{ $news->author }} - {{ $news->created_at }}</p>
         
         <p>{{$news->description}}</p>
-    </div></br>
+    </div>
+    </br>
 @endsection

@@ -25,7 +25,7 @@
         </div>
         <div class="form-group">
             <label for="author">Автор</label>
-            <input type="text" name="author" id="author" class="form-control @error('author') is-invalid @enderror" value="{{ old('author') }}"/>
+            <input type="text" name="author" id="author" class="form-control @error('author') is-invalid @enderror" value="{{ Auth::user()->name }}"/>
         </div>
         <div class="form-group">
             <label for="image">Изображение</label>
