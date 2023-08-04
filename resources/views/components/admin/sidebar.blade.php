@@ -31,6 +31,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2 @if(request()->routeIs('admin.parser')) active @endif" href="{{ route('admin.parser') }}">
+              <svg class="bi"><use xlink:href="#file-earmark-text"/></svg>
+              Парсер RSS
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-2" href="#">
               <svg class="bi"><use xlink:href="#gear-wide-connected"/></svg>
               Settings

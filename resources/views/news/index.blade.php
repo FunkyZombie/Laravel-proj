@@ -6,10 +6,10 @@
             @forelse ($news as $item)
                 <div class="col">
                     <div class="card shadow-sm">
-                        @if ($item->image_url === null)
+                        @if ($item->image === false)
                             <img src="https://via.placeholder.com/640x480.png/001522?text=placeholder" alt="placeholder">
                         @else
-                            <img src="{{ asset('/images/safdg.png') }}" alt="placeholder">
+                            <img src="{{ Storage::disk()->url($item->image) }}" alt="placeholder">
                         @endif
                         <div class="card-body">
                             <p><strong><a href="{{ route('news.show', ['news' => $item->id ]) }}">{{ $item->title }}</a></strong></p>

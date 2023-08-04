@@ -5,20 +5,27 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Parser\Store;
+use App\Jobs\NewsParsingJob;
 use App\Services\Contracts\Parser;
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ParserController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request, Parser $parser)
+    public function index(): View
     {
-        $url = "https://news.rambler.ru/rss/tech/";
+        return view('admin.parser.create');
+    }
 
-        $parser->setLink($url)->saveParseData();
+    public function store(Store $request, Parser $parser) 
+    {
+        $list = explode(',', $request->validated()['link_list']);
 
-        return 'Data saved';
+        foreach ($list as $url) {
+            dispatch(new NewsParsingJob(trim($url)));
+        }
     }
 }

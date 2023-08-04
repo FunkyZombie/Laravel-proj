@@ -8,10 +8,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\News\Store;
 use App\Http\Requests\News\Update;
 use App\Queries\CategoriesQueryBuilder;
+use App\Services\Contracts\Upload;
 use Illuminate\View\View;
 
 use App\Models\News;
 use App\Queries\NewsQueryBuilder;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
@@ -44,21 +46,21 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Store $request)
+    public function store(Store $request, Upload $upload)
     {
-        if ($request->file('image')) {
-            $path = $request->file('image')->store('/public/images');
-            $request['image_url'] = $path;
+        $requestValid = $request->validated();
+
+        if (array_key_exists('image', $requestValid)) {
+            $requestValid['image'] = $upload->create($requestValid['image']);
         }
 
-        // dd($request->all());
-
-        $news = News::create($request->all());
+        $news = News::create($requestValid);
  
         if ($news) {
             $news->categories()->attach($request->getCategories());
             return redirect()->route('admin.news.index')->with('success', __('News has been created'));
         }
+
         return back()->with('error', __('News has not been created'));
     }
 
@@ -84,8 +86,12 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Update $request, News $news)
+    public function update(Update $request, News $news, Upload $upload)
     {
+        if ($request->hasFile('image')) {
+            $news['image'] = $upload->create($request->file('image'));
+        }
+
         $news = $news->fill($request->validated());
 
         if($news->save()) {
@@ -102,8 +108,8 @@ class NewsController extends Controller
     public function destroy(News $news)
     {
         try {
+            Storage::disk('public')->delete($news->image);
             $news->delete();
-
             return \response()->json('ok', 200);
         } catch (\Throwable $exception) {
             \Log::error($exception->getMessage(), $exception->getTrace());

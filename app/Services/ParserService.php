@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Services\Contracts\Parser;
+use Illuminate\Support\Facades\Storage;
 use \Orchestra\Parser\Xml\Facade;
 
 class ParserService implements Parser
@@ -15,7 +16,8 @@ class ParserService implements Parser
 	 * @param string $link
 	 * @return Parser
 	 */
-	public function setLink(string $link): Parser {
+	public function setLink(string $link): Parser 
+    {
         $this->link = $link;
         return $this;
 	}
@@ -23,7 +25,8 @@ class ParserService implements Parser
 	/**
 	 * @return void
 	 */
-	public function saveParseData(): void {
+	public function saveParseData(): void 
+    {
 
         $xml = Facade::load($this->link);
 
@@ -45,6 +48,9 @@ class ParserService implements Parser
             ],
         ]);
 
-        dd($data);
+        $explode = explode("/", $this->link);
+        $fileName = end($explode);
+
+        Storage::append("parse/" . $fileName . '.txt', json_encode($data, JSON_INVALID_UTF8_IGNORE));
 	}
 }

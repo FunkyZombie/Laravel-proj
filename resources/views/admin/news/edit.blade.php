@@ -32,6 +32,7 @@
             
         </div>
         <div class="form-group">
+            <img src="{{ Storage::disk()->url($news->image) }}" style="width: 150px; margin: 25px 0;"><br>
             <label for="image">Изображение</label>
             <input type="file" name="image" id="image" class="form-control"/>
         </div>
@@ -47,9 +48,15 @@
         <div class="form-group">
             <label for="description">Описание</label>
             <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror">{{ $news->description }}</textarea>
-            
         </div>
         <br/>
         <button type="submit" class="btn btn-success">Save</button>
     </form>
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#description' ) )
+            .catch( error => {
+                console.error( error );
+            });
+    </script>
 @endsection

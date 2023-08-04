@@ -28,7 +28,7 @@ class Store extends FormRequest
             'categories.*'  => ['exists:categories,id'],
             'title'         => ['required', 'string', 'min:7', 'max:200'],
             'author'        => ['required', 'string', 'min:3', 'max:50'],
-            'image_url'     => ['sometimes'],
+            'image'         => ['sometimes', 'image', 'mimes:jpg,bmp,png'],
             'status'        => ['required', new Enum(NewsStatus::class)],
             'description'   => ['nullable', 'string', 'max:3000']
         ];

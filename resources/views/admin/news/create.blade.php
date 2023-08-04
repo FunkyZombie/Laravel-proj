@@ -46,4 +46,12 @@
         <br/>
         <button type="submit" class="btn btn-success">Save</button>
     </form>
+
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#description' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
 @endsection
