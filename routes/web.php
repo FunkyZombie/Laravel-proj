@@ -34,8 +34,8 @@ Route::group(['middleware' => 'auth'], static function () {
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'check.admin'], static function () {
         Route::get('/', AdminController::class)
             ->name('index');
-        Route::get('/parser', ParserController::class)
-            ->name('parser');
+        Route::resource('/parser', ParserController::class)
+            ->name('index', 'parser');
         Route::resource('/categories', AdminCategoriesController::class);
         Route::resource('/news', AdminNewsController::class);
         Route::resource('/users', AdminUsersController::class);

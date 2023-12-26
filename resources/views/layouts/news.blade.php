@@ -9,6 +9,8 @@
 
 <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+<link href="{{ asset('assets/css/content-styles.css') }}" rel="stylesheet">
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
 <meta name="theme-color" content="#712cf9">
     <style>
       .bd-placeholder-img {
